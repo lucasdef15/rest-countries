@@ -1,0 +1,301 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;800&display=swap');
+
+:root {
+  font-size: 64.5%;
+
+  --clr-light: #ffffff;
+  --clr-dark: hsl(231, 9%, 15%);
+  --clr-dark-950: hsl(231, 9%, 15%);
+  --clr-dark-900: hsl(224, 12%, 19%);
+  --clr-dark-800: hsl(220, 13%, 23%);
+  --clr-primary: hsl(207, 26%, 17%);
+  --clr-secondary: hsl(209, 23%, 22%);
+
+  --border: 0.8rem;
+  --bx-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+
+  --foreground: var(--clr-light);
+  --background: var(--clr-primary);
+}
+::placeholder {
+  color: var(--foreground);
+}
+.lightMode {
+  --clr-light: hsl(231, 9%, 15%);
+  --clr-dark: hsl(231, 9%, 15%);
+  --clr-dark-950: hsla(231, 9%, 15%, 0.351);
+  --clr-dark-900: hsla(224, 11%, 19%, 0.151);
+  --clr-dark-800: hsla(220, 13%, 23%, 0.151);
+  --clr-primary: hsl(0, 0%, 98%);
+  --clr-secondary: #ffffff;
+
+  --bx-shadow: 0px 0px 10px rgba(58, 58, 58, 0.15);
+
+  --foreground: var(--clr-dark);
+  --background: var(--clr-primary);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito Sans', sans-serif;
+}
+body {
+  min-height: 100vh;
+  font-size: 1.6rem;
+  background: var(--background);
+  color: var(--foreground);
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.spacing {
+  width: 85%;
+  margin-inline: auto;
+}
+
+/* header */
+.header-wrapper {
+  width: 100%;
+  background: var(--clr-secondary);
+  box-shadow: var(--bx-shadow);
+}
+.header {
+  background-color: var(--clr-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.4rem 0;
+
+  & h1 {
+    font-size: clamp(1.4rem, 2vw, 2.4rem);
+  }
+  & button {
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    padding: 0.5em 1em;
+    border-radius: var(--border);
+    cursor: pointer;
+    color: inherit;
+
+    &:hover {
+      background-color: var(--clr-dark-900);
+    }
+  }
+}
+
+#content {
+  width: 100%;
+}
+
+/* filtering  */
+.filtering-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 4.8rem 0;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 2.4rem 0;
+    gap: 4rem;
+  }
+}
+.search-input {
+  width: 100%;
+  max-width: 480px;
+  background-color: var(--clr-secondary);
+  box-shadow: var(--bx-shadow);
+  padding: 1.2rem 3.2rem;
+  border-radius: var(--border);
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+
+  & input {
+    background-color: transparent;
+    border: none;
+    font-size: clamp(1.2rem, 2vw, 1.4rem);
+    margin-left: 1.4rem;
+    padding: 0.6rem 1.9rem;
+    color: inherit;
+  }
+  & input:focus-within {
+    outline: none;
+    border-bottom: 1px solid var(--clr-light);
+  }
+}
+.filter-box {
+  background-color: var(--clr-secondary);
+  border: none;
+  padding: 1.8rem 6rem 1.8rem 2.8rem;
+  border-radius: var(--border);
+}
+.custom-dropdown {
+  position: relative;
+  width: 200px;
+  white-space: nowrap;
+
+  .select {
+    background-color: var(--clr-secondary);
+    box-shadow: var(--bx-shadow);
+    font-size: clamp(1.2rem, 2vw, 1.4rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.65rem 1.9rem;
+    border-radius: var(--border);
+    cursor: pointer;
+  }
+  .select:hover {
+    background-color: var(--clr-secondary);
+  }
+  .caret {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--clr-light);
+    transition: 0.3s;
+  }
+  .caret-rotate {
+    transform: rotate(180deg);
+  }
+  .menu {
+    list-style: none;
+    font-size: clamp(1.2rem, 2vw, 1.4rem);
+    padding: 0.7em;
+    background-color: var(--clr-secondary);
+    box-shadow: var(--bx-shadow);
+    border-radius: var(--border);
+    color: inherit;
+    position: absolute;
+    top: 3.5em;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    margin-top: 0.5rem;
+    opacity: 0;
+    display: none;
+    transition: 0.2s;
+    z-index: 1;
+
+    & li {
+      padding: 0.4rem 0.5em;
+      border-radius: var(--border);
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--clr-dark-900);
+      }
+    }
+  }
+  .active {
+    background: var(--clr-dark-950);
+  }
+  .menu-open {
+    display: block;
+    opacity: 1;
+  }
+}
+
+.countries-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 7.4rem;
+
+  @media (max-width: 768px) {
+    padding: 0 2.4rem;
+  }
+}
+
+.card {
+  color: inherit;
+  text-decoration: none;
+  flex: 1 1 264px;
+  min-width: 264px;
+  max-width: 528px;
+  background-color: var(--clr-secondary);
+  box-shadow: var(--bx-shadow);
+  border-radius: var(--border);
+  .card-wrapper {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+}
+.card img {
+  aspect-ratio: 1 / 0.6;
+  object-fit: cover;
+  border-radius: var(--border) var(--border) 0 0;
+  box-shadow: var(--bx-shadow);
+}
+.card-info {
+  padding: 2.4rem 2.2rem 2.8rem 2.2rem;
+
+  & [data-title] {
+    font-size: 1.8rem;
+    font-weight: 800;
+  }
+}
+.card-details {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.4rem;
+  gap: 0.8rem;
+  margin-top: 1.6rem;
+  & strong {
+    font-weight: 600;
+  }
+  & span {
+    font-weight: 300;
+  }
+}
+
+.spinner-container {
+  background-color: var(--background);
+  width: 100%;
+  height: calc(100vh - 245px);
+  min-height: 450px;
+  display: grid;
+  place-content: center;
+  .spinner {
+    display: none;
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 4px solid #ccc;
+    border-top-color: #333;
+    animation: spin 1s infinite linear;
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}
+
+.hide {
+  display: none;
+}
+
+.details-container {
+  width: 500px;
+  height: 500px;
+  background-color: red;
+}

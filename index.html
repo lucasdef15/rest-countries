@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/89199e8ced.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      @import url('./src/styles/style.scss');
+    </style>
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="header-wrapper">
+        <div class="header spacing">
+          <h1>Where in the world?</h1>
+          <button id="darkmode">
+            <i class="fa-sharp fa-solid fa-moon"></i>
+            Dark mode
+          </button>
+        </div>
+      </header>
+
+      <div id="content"></div>
+
+      <template data-card-template>
+        <div class="card">
+          <a href="">
+            <div class="card-wrapper">
+              <img data-img src="./src/assets/cover.jpg" alt="cover" />
+              <div class="card-info">
+                <h3 data-title></h3>
+                <div class="card-details">
+                  <span data-population></span>
+                  <span data-region></span>
+                  <span data-capital></span>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </template>
+
+      <div class="spinner-container">
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <script type="module" src="/main.js" defer></script>
+  </body>
+</html>
