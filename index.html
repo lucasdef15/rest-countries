@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script
       src="https://kit.fontawesome.com/89199e8ced.js"
@@ -11,7 +11,7 @@
     <style>
       @import url('./src/styles/style.scss');
     </style>
-    <title>Vite App</title>
+    <title>Rest Countries API</title>
   </head>
   <body>
     <div id="app">
@@ -27,28 +27,28 @@
 
       <div id="content"></div>
 
-      <template data-card-template>
-        <div class="card">
-          <a href="">
-            <div class="card-wrapper">
-              <img data-img src="./src/assets/cover.jpg" alt="cover" />
-              <div class="card-info">
-                <h3 data-title></h3>
-                <div class="card-details">
-                  <span data-population></span>
-                  <span data-region></span>
-                  <span data-capital></span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-      </template>
-
       <div class="spinner-container">
         <div class="spinner"></div>
       </div>
     </div>
+
+    <template data-card-template>
+      <div class="card">
+        <a href="">
+          <div class="card-wrapper">
+            <img data-img src="./src/assets/cover.jpg" alt="cover" />
+            <div class="card-info">
+              <h3 data-title></h3>
+              <div class="card-details">
+                <span data-population></span>
+                <span data-region></span>
+                <span data-capital></span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </template>
 
     <script type="module" src="/main.js" defer></script>
   </body>
