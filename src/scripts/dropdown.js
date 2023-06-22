@@ -46,18 +46,23 @@ class Dropdown {
     });
 
     document.body.addEventListener('click', (e) => {
-      const checker =
-        e.target.classList.contains('select') ||
-        e.target.classList.contains('caret') ||
-        e.target.classList.contains('selected');
+      if (this.menu.classList.contains('menu-open')) {
+        const checker =
+          e.target.classList.contains('select') ||
+          e.target.classList.contains('caret') ||
+          e.target.classList.contains('selected');
 
-      if (checker) {
-        console.log('dropdown');
+        if (!checker) {
+          this.menu.classList.add('close');
+          this.menu.classList.remove('menu-open');
+          this.caret.classList.remove('caret-rotate');
+        } else {
+          return;
+        }
       } else {
-        this.menu.classList.add('close');
-        this.menu.classList.remove('menu-open');
-        this.caret.classList.toggle('caret-rotate');
+        return;
       }
+     
     });
 
     dropdown.appendChild(this.select);
