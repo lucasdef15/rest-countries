@@ -52,7 +52,7 @@ class Router {
       const html = await fetch(route.template).then((response) =>
         response.text()
       );
-      await this.processTemplate(html, id); // Add 'await' here
+      await this.processTemplate(html, id);
       dataFetcher.hideSpinner();
     } else if (location === '/') {
       const route = this.urlRoutes[location] || this.urlRoutes[404];
