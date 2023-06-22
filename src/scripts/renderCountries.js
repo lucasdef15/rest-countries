@@ -4,6 +4,7 @@ import myDropdown from './dropdown';
 export class APIDataFetcher {
   constructor() {
     this.apiUrl = 'https://restcountries.com/v3.1/all';
+    this.countriesContainer = document.createElement('div');
     this.spinnerElement = document.querySelector('.spinner');
     this.cardTemplate = document.querySelector('[data-card-template]');
     this.searchInput = document.querySelector('#search-input');
@@ -17,8 +18,8 @@ export class APIDataFetcher {
       const response = await fetch(this.apiUrl);
       const data = await response.json();
 
-      await this.searchText();
-      await myDropdown.initialize();
+      this.searchText();
+      myDropdown.initialize();
       this.hideSpinner();
 
       return data;
@@ -44,7 +45,7 @@ export class APIDataFetcher {
     }
   }
 
-  async searchText() {
+  searchText() {
     const searchContainer = document.querySelector('.search-input');
     const input = document.createElement('input');
 
@@ -71,11 +72,10 @@ export class APIDataFetcher {
     container.style.display = 'none';
   }
 
-  async updateTargetElement(data) {
-    const countriesContainer = document.createElement('div');
-    countriesContainer.id = 'countries';
-    countriesContainer.classList.add('countries-container');
-    countriesContainer.classList.add('spacing');
+  updateTargetElement(data) {
+    this.countriesContainer.id = 'countries';
+    this.countriesContainer.classList.add('countries-container');
+    this.countriesContainer.classList.add('spacing');
 
     this.countries = data.map((countryData) => {
       const card = this.cardTemplate.content
@@ -104,16 +104,17 @@ export class APIDataFetcher {
       region.innerHTML = `<strong>Region</strong>: ${countryData.region}`;
       capital.innerHTML = `<strong>Capital</strong>: ${countryData.capital}`;
 
-      countriesContainer.append(card);
+      this.countriesContainer.append(card);
 
       return { name: countryData.name.common, element: card };
     });
 
+    // append countries to content div
     const existingCountriesContainer = document.getElementById('countries');
     if (existingCountriesContainer) {
-      existingCountriesContainer.replaceWith(countriesContainer);
+      existingCountriesContainer.replaceWith(this.countriesContainer);
     } else {
-      document.getElementById('content').appendChild(countriesContainer);
+      document.getElementById('content').appendChild(this.countriesContainer);
     }
   }
 }

@@ -13,11 +13,11 @@ class Dropdown {
     this.selectItem = this.selectItem.bind(this);
   }
 
-  async initialize() {
-    await this.openMenu();
+  initialize() {
+    this.openMenu();
   }
 
-  async openMenu() {
+  openMenu() {
     const dropdown = document.querySelector('.custom-dropdown');
 
     this.menu.innerHTML = '';
@@ -40,8 +40,24 @@ class Dropdown {
     this.select.appendChild(this.caret);
 
     this.select.addEventListener('click', () => {
+      this.menu.classList.remove('close');
       this.caret.classList.toggle('caret-rotate');
       this.menu.classList.toggle('menu-open');
+    });
+
+    document.body.addEventListener('click', (e) => {
+      const checker =
+        e.target.classList.contains('select') ||
+        e.target.classList.contains('caret') ||
+        e.target.classList.contains('selected');
+
+      if (checker) {
+        console.log('dropdown');
+      } else {
+        this.menu.classList.add('close');
+        this.menu.classList.remove('menu-open');
+        this.caret.classList.toggle('caret-rotate');
+      }
     });
 
     dropdown.appendChild(this.select);
@@ -72,5 +88,6 @@ class Dropdown {
 }
 
 const myDropdown = new Dropdown();
+
 
 export default myDropdown;

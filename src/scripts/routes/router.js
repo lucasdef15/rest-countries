@@ -1,18 +1,14 @@
 import dataFetcher from '../renderCountries';
-import countryList from 'country-list';
 import iso from 'iso-3166-1';
 
 class Router {
   constructor() {
     this.urlRoutes = {
-      404: {
-        template: '/templates/404.html',
-      },
       '/': {
         template: '/templates/index.html',
       },
       '/country/:id': {
-        template: '/templates/country.html',
+        template: null,
       },
     };
   }
@@ -27,12 +23,7 @@ class Router {
     };
   }
 
-  async urlLocationHandler() {
-    let location = window.location.pathname;
-    if (location.length === 0) {
-      location = '/';
-    }
-
+  handleDynamicRoutes(location) {
     // Check if the location matches a route with a dynamic ID
     const dynamicRoute = Object.keys(this.urlRoutes).find((route) => {
       const routeParts = route.split('/');
@@ -45,25 +36,7 @@ class Router {
       );
     });
 
-    if (location.includes('country')) {
-      const route = this.urlRoutes[dynamicRoute] || this.urlRoutes[404];
-      const id = this.extractIdFromPath(location, dynamicRoute);
-
-      const html = await fetch(route.template).then((response) =>
-        response.text()
-      );
-      await this.processTemplate(html, id);
-      dataFetcher.hideSpinner();
-    } else if (location === '/') {
-      const route = this.urlRoutes[location] || this.urlRoutes[404];
-      const html = await fetch(route.template).then((response) =>
-        response.text()
-      );
-      document.getElementById('content').innerHTML = html;
-
-      const data = await dataFetcher.fetchData();
-      await dataFetcher.updateTargetElement(data);
-    }
+    return dynamicRoute;
   }
 
   extractIdFromPath(location, dynamicRoute) {
@@ -83,9 +56,37 @@ class Router {
     });
   }
 
-  async processTemplate(html, id) {
+  async urlLocationHandler() {
+    let location = window.location.pathname;
+    const dynamicRoute = this.handleDynamicRoutes(location);
+
+    if (location.length === 0) {
+      location = '/';
+    }
+
+    if (location.includes('country')) {
+      const country = this.extractIdFromPath(location, dynamicRoute);
+      await this.processTemplate(country);
+      dataFetcher.hideSpinner();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    } else if (location === '/') {
+      const route = this.urlRoutes[location] || this.urlRoutes[404];
+      const html = await fetch(route.template).then((response) =>
+        response.text()
+      );
+      document.getElementById('content').innerHTML = html;
+
+      const data = await dataFetcher.fetchData();
+      dataFetcher.updateTargetElement(data);
+    }
+  }
+
+  async processTemplate(country) {
     try {
-      const data = await this.fetchCountryData(id);
+      const data = await this.fetchCountryData(country);
 
       const countryHTML = data.map((country) => {
         const countryCurrencies = country.currencies
@@ -163,8 +164,7 @@ class Router {
         `;
       });
 
-      html = countryHTML.join('');
-      document.getElementById('content').innerHTML = html;
+      document.getElementById('content').innerHTML = countryHTML.join('');
       this.attachBackButtonListener();
     } catch (error) {
       console.error('Error fetching country data:', error);
