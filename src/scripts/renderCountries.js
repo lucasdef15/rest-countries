@@ -1,4 +1,5 @@
 import router from './routes/router';
+import myDropdown from './dropdown';
 
 export class APIDataFetcher {
   constructor() {
@@ -17,7 +18,9 @@ export class APIDataFetcher {
       const data = await response.json();
 
       await this.searchText();
+      await myDropdown.initialize();
       this.hideSpinner();
+
       return data;
     } catch (error) {
       console.error('Error:', error);
@@ -42,18 +45,20 @@ export class APIDataFetcher {
   }
 
   async searchText() {
-    //not working as exected fix...
-    while (!this.searchInput) {
-      this.searchInput = document.querySelector('#search-input');
-      await new Promise((resolve) => setTimeout(resolve, 100));
-    }
-    this.searchInput.addEventListener('input', (e) => {
+    const searchContainer = document.querySelector('.search-input');
+    const input = document.createElement('input');
+
+    input.placeholder = 'Search for a country...';
+
+    input.addEventListener('input', (e) => {
       const value = e.target.value.toLowerCase();
       this.countries.forEach((country) => {
         const isVisible = country.name.toLowerCase().includes(value);
         country.element.classList.toggle('hide', !isVisible);
       });
     });
+
+    searchContainer.appendChild(input);
   }
 
   showSpinner() {
@@ -62,6 +67,8 @@ export class APIDataFetcher {
 
   hideSpinner() {
     this.spinnerElement.style.display = 'none';
+    const container = document.querySelector('.spinner-container');
+    container.style.display = 'none';
   }
 
   async updateTargetElement(data) {
@@ -89,7 +96,10 @@ export class APIDataFetcher {
       });
 
       img.src = countryData.flags.svg;
-      title.textContent = countryData.name.common;
+      title.textContent =
+        countryData.name.common.length > 20
+          ? `${countryData.name.common.slice(0, 20)}...`
+          : countryData.name.common;
       population.innerHTML = `<strong>Population</strong>: ${countryData.population.toLocaleString()}`;
       region.innerHTML = `<strong>Region</strong>: ${countryData.region}`;
       capital.innerHTML = `<strong>Capital</strong>: ${countryData.capital}`;

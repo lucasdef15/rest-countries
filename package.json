@@ -11,5 +11,9 @@
   "devDependencies": {
     "sass": "^1.63.4",
     "vite": "^4.3.9"
+  },
+  "dependencies": {
+    "country-list": "^2.3.0",
+    "iso-3166-1": "^2.1.1"
   }
 }

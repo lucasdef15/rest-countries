@@ -1,1 +1,32 @@
 
+`
+            <div class="card">
+              <img data-img src="${country.flags.svg}" alt="cover" />
+              <div class="card-info">
+                <h3 data-title>${country.name.common}</h3>
+                <div class="card-details">
+                  <span data-population><strong>Population</strong>: ${country.population.toLocaleString()}</span>
+                  <span data-region><strong>Region</strong>: ${
+                    country.region
+                  }</span>
+                  <span data-capital><strong>Capital</strong>: ${
+                    country.capital
+                  }</span>
+                  <button onclick="history.back()")>back</button>
+                </div>
+              </div>
+            </div>
+          `;
+
+
+           <!-- <div class="select">
+      <span class="selected">Filter by Region</span>
+      <div class="caret"></div>
+    </div>
+    <ul class="menu">
+      <li>Africa</li>
+      <li>America</li>
+      <li>Asia</li>
+      <li>Europe</li>
+      <li>Oceania</li>
+    </ul> -->

@@ -1,5 +1,6 @@
 import dataFetcher from '../renderCountries';
-import darkMode from '../darkMode.js';
+import countryList from 'country-list';
+import iso from 'iso-3166-1';
 
 class Router {
   constructor() {
@@ -16,7 +17,6 @@ class Router {
     };
   }
   async urlRoute(event) {
-    // event = event || window.event;
     event.preventDefault();
 
     window.history.pushState({}, '', event.currentTarget.href);
@@ -52,7 +52,8 @@ class Router {
       const html = await fetch(route.template).then((response) =>
         response.text()
       );
-      this.processTemplate(html, id);
+      await this.processTemplate(html, id); // Add 'await' here
+      dataFetcher.hideSpinner();
     } else if (location === '/') {
       const route = this.urlRoutes[location] || this.urlRoutes[404];
       const html = await fetch(route.template).then((response) =>
@@ -72,42 +73,106 @@ class Router {
       const idIndex = routeParts.findIndex((part) => part.startsWith(':'));
       return locationParts[idIndex];
     }
-    return locationParts[404];
+    return locationParts[locationParts.length - 1];
+  }
+
+  attachBackButtonListener() {
+    const backButton = document.getElementById('back-button');
+    backButton.addEventListener('click', () => {
+      history.back();
+    });
   }
 
   async processTemplate(html, id) {
     try {
       const data = await this.fetchCountryData(id);
+
       const countryHTML = data.map((country) => {
+        const countryCurrencies = country.currencies
+          ? Object.entries(country.currencies)[0]
+          : 'undefined';
+        const nativeName = country.name.nativeName
+          ? Object.entries(country.name.nativeName)[
+              Object.entries(country.name.nativeName).length - 1
+            ][1].common
+          : country.name.official;
+        const languages = country.languages
+          ? Object.values(country.languages).join(', ')
+          : 'undefined';
+
+        const countriesBorders = country.borders
+          ? country.borders.map((country) => {
+              const countryData = iso.whereAlpha3(country);
+              return countryData
+                ? `<span class='borders'>${countryData.country}</span>`
+                : '';
+            })
+          : null;
+
         return `
-            <div class="card">
-              <img data-img src="${country.flags.svg}" alt="cover" />
-              <div class="card-info">
-                <h3 data-title>${country.name.common}</h3>
-                <div class="card-details">
-                  <span data-population><strong>Population</strong>: ${country.population.toLocaleString()}</span>
-                  <span data-region><strong>Region</strong>: ${
-                    country.region
-                  }</span>
-                  <span data-capital><strong>Capital</strong>: ${
-                    country.capital
-                  }</span>
-                  <button onclick="history.back()")>back</button>
-                </div>
-              </div>
+        <div class="country-page">
+          <div class="backk-btn">
+            <button id="back-button">
+              <i class="fa-solid fa-arrow-left"></i>
+                Back
+            </button>
+          </div>
+          <section class="country-container">
+            <div class="img-wrapper">
+                <img src="${country.flags.svg}" alt="">
             </div>
-          `;
+            <div class="country-info-wrapper">
+                <div class="info-container">
+                  <section class="country-title">
+                      <h1>${country.name.common}</h1>
+                  </section>
+                  <section class="more-info">
+                      <div class="flex-column">
+                        <span>
+                        <strong>Native Name: </strong>${nativeName}</span>
+                        <span><strong>Population: </strong>${country.population.toLocaleString()}</span>
+                        <span><strong>Region: </strong>${country.region}</span>
+                        <span><strong>Sub Region: </strong>${
+                          country.subregion
+                        }</span>
+                        <span><strong>Capital: </strong>${
+                          country.capital
+                        }</span>
+                      </div>
+                      <div class="flex-column">
+                        <span><strong>Top Level Domain: </strong>${country.tld.join(
+                          ' / '
+                        )}</span>
+                        <span><strong>Currencies: </strong>${
+                          countryCurrencies[1].name
+                        }</span>
+                        <span><strong>Languages: </strong>${languages}</span>
+                      </div>
+                  </section>
+                </div>
+                <section class="Border-countries">
+                    <strong>Border Countries: </strong>${
+                      countriesBorders
+                        ? countriesBorders?.join('')
+                        : 'undefined'
+                    }
+                </section>
+            </div>
+          </section>
+        </div>
+        `;
       });
 
-      html = countryHTML;
+      html = countryHTML.join('');
       document.getElementById('content').innerHTML = html;
+      this.attachBackButtonListener();
     } catch (error) {
       console.error('Error fetching country data:', error);
     }
   }
 
   async fetchCountryData(id) {
-    const url = `https://restcountries.com/v3.1/name/${id}`;
+    const url = `https://restcountries.com/v3.1/name/${id}?fullText=true`;
 
     try {
       const reponse = await fetch(url);
