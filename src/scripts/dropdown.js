@@ -56,12 +56,10 @@ class Dropdown {
           this.menu.classList.add('close');
           this.menu.classList.remove('menu-open');
           this.caret.classList.remove('caret-rotate');
-        } else {
-          return;
         }
-      } else {
         return;
       }
+      return;
      
     });
 
