@@ -95,7 +95,8 @@ export class APIDataFetcher {
         router.urlRoute(e);
       });
 
-      img.src = countryData.flags.svg;
+      img.src = countryData.flags.svg ?? countryData.flags.png;
+      img.alt = countryData.flags.alt;
       title.textContent =
         countryData.name.common.length > 20
           ? `${countryData.name.common.slice(0, 20)}...`

@@ -239,10 +239,12 @@ a {
     width: 100%;
     height: 100%;
     pointer-events: none;
+    
   }
 }
 .card img {
-  aspect-ratio: 1 / 0.6;
+  height: 208px;
+  aspect-ratio: 1 / .6;
   object-fit: cover;
   border-radius: var(--border) var(--border) 0 0;
   box-shadow: var(--bx-shadow);

@@ -120,7 +120,9 @@ class Router {
           </div>
           <section class="country-container">
             <div class="img-wrapper">
-                <img src="${country.flags.svg}" alt="">
+                <img src="${country.flags.svg ?? country.flags.png}" alt="${
+          country.flags.alt
+        }">
             </div>
             <div class="country-info-wrapper">
                 <div class="info-container">
