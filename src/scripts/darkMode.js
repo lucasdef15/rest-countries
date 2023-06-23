@@ -6,16 +6,16 @@ class DarkMode {
     this.loadSettings();
     const darkmode = document.querySelector('#darkmode');
     darkmode.addEventListener('click', () => {
-      document.body.classList.toggle('lightMode');
+      document.body.classList.toggle('darkMode');
       this.darkMode = !this.darkMode;
       localStorage.setItem('darkMode', JSON.stringify(this.darkMode));
     });
   }
   loadSettings() {
     if (this.darkMode) {
-      document.body.classList.add('lightMode');
+      document.body.classList.add('darkMode');
     } else {
-      document.body.classList.remove('lightMode');
+      document.body.classList.remove('darkMode');
     }
   }
 }

@@ -1,7 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;300;400;600;800&display=swap');
-
 :root {
   font-size: 64.5%;
+
+  --clr-light: hsl(231, 9%, 15%);
+  --clr-dark: hsl(231, 9%, 15%);
+  --clr-dark-950: hsla(231, 9%, 15%, 0.351);
+  --clr-dark-900: hsla(224, 11%, 19%, 0.151);
+  --clr-dark-800: hsla(220, 13%, 23%, 0.151);
+  --clr-primary: hsl(0, 0%, 98%);
+  --clr-secondary: #ffffff;
+
+
+  --border: 0.8rem;
+  --bx-shadow: 0px 0px 5px rgba(75, 73, 73, 0.097);
+
+  --foreground: var(--clr-dark);
+  --background: var(--clr-primary);
+}
+::placeholder {
+  color: var(--foreground);
+}
+.darkMode {
 
   --clr-light: #ffffff;
   --clr-dark: hsl(231, 9%, 15%);
@@ -11,28 +30,9 @@
   --clr-primary: hsl(207, 26%, 17%);
   --clr-secondary: hsl(209, 23%, 22%);
 
-
-  --border: 0.8rem;
   --bx-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
 
   --foreground: var(--clr-light);
-  --background: var(--clr-primary);
-}
-::placeholder {
-  color: var(--foreground);
-}
-.lightMode {
-  --clr-light: hsl(231, 9%, 15%);
-  --clr-dark: hsl(231, 9%, 15%);
-  --clr-dark-950: hsla(231, 9%, 15%, 0.351);
-  --clr-dark-900: hsla(224, 11%, 19%, 0.151);
-  --clr-dark-800: hsla(220, 13%, 23%, 0.151);
-  --clr-primary: hsl(0, 0%, 98%);
-  --clr-secondary: #ffffff;
-
-  --bx-shadow: 0px 0px 5px rgba(75, 73, 73, 0.097);
-
-  --foreground: var(--clr-dark);
   --background: var(--clr-primary);
 }
 
@@ -57,7 +57,7 @@ a {
   text-decoration: none;
 }
 .spacing {
-  width: 85%;
+  width: 90%;
   margin-inline: auto;
 }
 .close {
@@ -230,7 +230,7 @@ a {
   color: inherit;
   text-decoration: none;
   flex: 1 1 264px;
-  max-width: 264px;
+  max-width: 564px;
   background-color: var(--clr-secondary);
   box-shadow: var(--bx-shadow);
   border-radius: var(--border);
